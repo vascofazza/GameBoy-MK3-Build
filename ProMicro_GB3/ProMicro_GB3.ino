@@ -62,6 +62,7 @@
 
 #define BatteryLevelPin A0
 #define BrightnessAddress 0x00
+#define OFFSET 20
 
 #define WINDOW 200
 int analogread[WINDOW];
@@ -353,13 +354,14 @@ void sendCommand(int cmd)
 {
   Serial.print("c");
   Serial.print(cmd);
+  delay(250);
   Serial.print("\n");
 }
 
 void readBattery()
 {
   total -= analogread[readIndex];
-  analogread[readIndex] = analogRead(BatteryLevelPin);
+  analogread[readIndex] = analogRead(BatteryLevelPin)+OFFSET;
   total += analogread[readIndex];
   readIndex++;
   if (readIndex >= WINDOW)
